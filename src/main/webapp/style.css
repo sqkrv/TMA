@@ -1,0 +1,62 @@
+:root {
+    --font-family-preview: "Segoe UI", Arial, Helvetica, sans-serif;
+}
+
+.btn {
+    background-color: #59001C;
+    color: #ffffff;
+}
+
+.btn:hover {
+    background-color: #8C3853;
+    color: #ffffff;
+}
+
+.btn:focus {
+    background-color: #7F1D3C;
+    color: #ffffff;
+}
+
+.btn:active {
+    background-color: #7F1D3C;
+    color: #ffffff;
+}
+
+body {
+    font-family: "Segoe UI", serif;
+    font-weight: lighter;
+}
+
+.preview {
+    width: 300px;
+    height: 500px;
+    background-color: blue;
+    margin: auto;
+
+}
+
+.preview_button {
+    width: 200px;
+    height: 40px;
+    border-radius: 5px;
+    background-color: #4343ff;
+    display: block;
+    margin: 10px auto;
+}
+
+.preview_button img {
+    margin: 5px;
+    float: left;
+    filter: brightness(0) invert(1);
+}
+
+.preview_button p {
+    margin-top: 9px;
+    float: left;
+    font-size: 13px;
+    color: white;
+}
+
+#prev_bod {
+    font-family: var(--font-family-preview);
+}

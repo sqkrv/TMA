@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <title>All themes</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.css"/>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous"/>
+    <link href="https://unpkg.com/bootstrap-table@1.18.3/dist/bootstrap-table.min.css" rel="stylesheet"/>
+    <link href="style.css" rel="stylesheet" />
+
+    <script src="https://unpkg.com/tableexport.jquery.plugin/tableExport.min.js"></script>
+    <script src="https://unpkg.com/bootstrap-table@1.18.3/dist/bootstrap-table.min.js"></script>
+    <script src="https://unpkg.com/bootstrap-table@1.18.3/dist/bootstrap-table-locale-all.min.js"></script>
+    <script src="https://unpkg.com/bootstrap-table@1.18.3/dist/extensions/export/bootstrap-table-export.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.min.js"
+            integrity="sha384-j0CNLUeiqtyaRmlzUHCPZ+Gy5fQu0dQ6eZ/xAww941Ai1SxSY+0EQqNXNE6DZiVc"
+            crossorigin="anonymous"></script>
+
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="index.html">ToMyAppointment Theme Manager</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText"
+                aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarText">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="index.html"></a>
+                </li>
+            </ul>
+            <span class="navbar-text">
+                JCC Software, Project Team 3 (Team Epic) &copy;
+      </span>
+        </div>
+    </div>
+</nav>
+
+<div class="container">
+    <div class="row" style="margin-bottom: 10px;">
+        <div class="col-10">
+            <h3>Theme Editor</h3>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-lg-5" style="float:left;">
+            <button type="button"
+                    class="btn"
+                    style="display: inline; float:left; width:35%; margin: 2px;"
+                    data-bs-toggle="modal" data-bs-target="#createMuniModal"
+                    onclick="resetCreateMuniFields()">Create Municipality
+            </button>
+            <button type="button"
+                    class="btn"
+                    style="display: inline; float:left; width:35%; margin: 2px;"
+                    data-bs-toggle="modal" data-bs-target="#createThemeModal"
+                    onclick="resetCreateFields(true)">Create Theme
+            </button>
+            <button type="button"
+                    class="btn"
+                    style="display: inline; float:left; width:18%; margin: 2px;"
+                    onclick="remakeTable()">Refresh
+            </button>
+        </div>
+        <input name="search" id="search" placeholder="Search..." onchange="remakeTable()" />
+    </div>
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th scope="col">Municipality ID</th>
+            <th scope="col">Municipality Name</th>
+            <th scope="col">Location</th>
+            <th scope="col">Options</th>
+        </tr>
+        </thead>
+        <tbody id="tableBody"></tbody>
+    </table>
+    <div class="row" id="loading">
+        <div class="col-12">
+            <h4 style="color: black; text-align: center;"><b>Loading themes...</b></h4>
+        </div>
+    </div>
+</div>
+
+<!--
+MODALS (pop up windows with data forms etc.)
+-->
+<!-- CREATE WINDOW MODAL -->
+<div class="container">
+    <div class="modal fade" id="createThemeModal" tabindex="-1" aria-labelledby="createThemeModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-fullscreen">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="createThemeModalLabel">Create a new Theme</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-6" style="margin-left: 10px">
+                                <h3><b>General Settings</b></h3>
+                            </div>
+                        </div>
+                        <div class="row" style="margin: 10px;">
+                            <div class="col-6 border bg-light" style="padding: 5px;">
+                                <p><b>Municipality name</b></p>
+                                <select class="form-select" aria-label="Default select example" id="muni-dropdown"
+                                        name="municipality">
+
+                                </select>
+                            </div>
+                            <div class="col-6 border bg-light" style="padding: 5px;">
+                                <p><b>Location name</b></p>
+                                <div class="form-group">
+                                    <input type="text" class="form-control" id="location_name"
+                                           aria-describedby="locationName" placeholder="Enter Location Name">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" style="margin: 10px;">
+                            <div class="col-6 border bg-light" style="padding: 5px;">
+                                <p><b>Home URL</b></p>
+                                <div class="form-group">
+                                    <input type="text" class="form-control" id="home_url" aria-describedby="homeURL"
+                                           placeholder="Enter Municipality URL">
+                                </div>
+                            </div>
+                            <div class="col-6 border bg-light" style="padding: 5px;">
+                                <p><b>Theme ID (GUID)</b></p>
+                                <div>
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" id="theme_guid" aria-describedby="homeURL"
+                                               placeholder="Enter GUID">
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="row">
+                            <div class="col-6" style="margin-left: 10px">
+                                <h3><b>Theme Settings</b></h3>
+                            </div>
+                        </div>
+                        <div class="row" style="margin: 10px;">
+                            <div class="col-6 border bg-light" style="padding: 5px;">
+                                <p><b>Background image</b></p>
+                                <form>
+                                    <div class="form-group">
+                                        <input type="file" class="form-control-file" id="bg_image" accept="image/jpeg">
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="col-6 border bg-light" style="padding: 5px;">
+                                <p><b>Logo image</b></p>
+                                <form>
+                                    <div class="form-group">
+                                        <input type="file" class="form-control-file" id="logo_image" accept="image/png">
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="row" style="margin: 10px;">
+                            <div class="col-6 border bg-light" style="padding: 5px;">
+                                <p><b>Icon (192x192)</b><br></p>
+                                <form>
+                                    <div class="form-group">
+                                        <input type="file" class="form-control-file" id="icon_192" accept="image/png">
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="col-6 border bg-light" style="padding: 5px;">
+                                <p><b>Icon (512x512)</b><br></p>
+                                <form>
+                                    <div class="form-group">
+                                        <input type="file" class="form-control-file" id="icon_512" accept="image/png">
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="row" style="margin: 10px;">
+                            <div class="col-6 border bg-light" style="padding: 5px;">
+                                <p><b>Main color</b></p>
+                                <div class="input-group mb-3">
+                                    <input type="color" class="form-control" id="main_color" name="color"
+                                           style="height: 45px;" value="#ff0000">
+                                    <span class="input-group-text">Hex</span>
+                                    <input type="text" class="form-control" id="color_text" name="colorText"
+                                           value="#ff0000">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-2" style="margin-left: 10px;">
+                                <h3><b>Font settings</b></h3>
+                            </div>
+                            <div class="col-3" style="margin-top: 10px;">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="font-setting" value="0"
+                                           id="fontDefault" checked>
+                                    <label class="form-check-label" for="fontDefault">
+                                        Default Font
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-3" style="margin-top: 10px;">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="font-setting" value="1"
+                                           id="fontUploadCheck">
+                                    <label class="form-check-label" for="fontUploadCheck">
+                                        Font upload
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-3" style="margin-top: 10px;">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="font-setting" value="2"
+                                           id="fontLinkCheck">
+                                    <label class="form-check-label" for="fontLinkCheck">
+                                        Font link
+                                    </label>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="row" style="margin: 10px;">
+                            <div class="col-6 border bg-light font-s" id="font-upload"
+                                 style="padding: 5px; display:none;">
+                                <p><b>Font upload</b></p>
+                                <form>
+                                    <div class="form-group">
+                                        <input type="file" class="form-control-file" id="font_file"
+                                               accept="font/opentype">
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="col-6 border bg-light font-s" id="font-link"
+                                 style="padding: 5px; display:none;">
+                                <p><b>Font link</b></p>
+                                <div class="form-group">
+                                    <input type="text" class="form-control" id="font_link" aria-describedby="fontLink"
+                                           placeholder="Enter font link">
+                                </div>
+                            </div>
+                            <div class="col-6 border bg-light font-s" id="font-family" style="padding: 10px; display:none;">
+                                <p><b>Font family</b></p>
+                                <form>
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" id="font_family"
+                                               placeholder="Enter font family">
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="container">
+                    <div class="row">
+                        <button type="button" class="btn" onclick="setupPreview()">Preview theme</button>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn" data-bs-dismiss="modal">Close</button>
+                    <button id="save_theme" onclick="createTheme()" type="button" class="btn">Create</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- CREATE MUNICIPALITY MODAL -->
+<div class="container">
+    <div class="modal fade" id="createMuniModal" tabindex="-1" aria-labelledby="createMuniModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="createMuniModalLabel">Create a new Municipality</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-12 border bg-light" style="padding: 5px; margin-bottom: 8px;">
+                                <p><b>Municipality id</b></p>
+                                <div class="form-group">
+                                    <input type="text" class="form-control" id="muni_id"
+                                           aria-describedby="municipalityID"
+                                           placeholder="Enter Municipality id">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12 border bg-light" style="padding: 5px; margin-bottom: 8px;">
+                                <p><b>Municipality name</b></p>
+                                <div class="form-group">
+                                    <input type="text" class="form-control" id="muni_name"
+                                           aria-describedby="municipalityName" placeholder="Enter Municipality Name">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12 border bg-light" style="padding: 5px; margin-bottom: 8px;">
+                                <p><b>Municipality short name</b></p>
+                                <div class="form-group">
+                                    <input type="text" class="form-control" id="muni_short_name"
+                                           aria-describedby="municipalityShortName"
+                                           placeholder="Enter Municipality Short Name">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn" data-bs-dismiss="modal">Close</button>
+                    <button onclick="createMunicipality()" type="button" class="btn">Create
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ERROR / MISS INFORMATION MODAL -->
+<div class="container">
+    <div class="modal fade" id="msgModal" style="background-color: #373737" tabindex="-1" aria-labelledby="msgModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="msgModalLabel">Are you sure?</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-12" id="modal_verification_message">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" id="confirm-yes" class="btn" data-bs-dismiss="modal">Yes</button>
+                    <button type="button" class="btn" data-bs-dismiss="modal">No</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- DISPLAY CREATED THEME -->
+<div class="container">
+    <div class="modal fade" id="previewModal" tabindex="-1" aria-labelledby="previewModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="previewModalLabel">Preview theme</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="prev_bod" class="preview" style="background-image: url('background.jpg'); background-position-y: 50px; background-position-x: -300px; background-repeat: no-repeat;">
+                        <div style="height: 50px; background-color: white;">
+                            <div style="width: 150px; float: left; padding: 5px;"><p>My appointment</p></div>
+                        </div>
+
+                        <div style="background-color: white; font-size: 13px; margin: 20px; width: 260px; height: 120px; border-radius: 4px;">
+                            <div style="padding-left: 9px; padding-top: 9px;">
+                                <p id="preview_text_date"><b>24 June 2021 at 16:00</b></p>
+                            </div>
+                            <div style="padding-left: 9px;"><p >Driver license application</p></div>
+                            <div style="padding: 9px;">
+                                <p style="float:left; "><u>Edit appointment</u></p>
+                                <p style="float:right; "><u>Set in calendar</u></p>
+                            </div>
+
+                        </div>
+
+                        <div style="margin: auto;">
+                            <div class="preview_button">
+                                <img src="checklist.png" alt="check" width="30" height="30">
+                                <p >What to bring?</p>
+                            </div>
+                            <div class="preview_button">
+                                <img src="loc_icon.png" alt="check" width="30" height="30">
+                                <p >Where to be?</p>
+                            </div>
+                            <div class="preview_button">
+                                <img src="waving_icon.png" alt="check" width="30" height="30">
+                                <p>I am present</p>
+                            </div>
+                        </div>
+
+                        <div style="height: 50px; background-color: white; bottom: 0; position: absolute;">
+                            <div style="width: 150px; float: left;"></div>
+                            <div style="width: 150px; text-align: right; float: right; padding: 5px;">
+                                <img id="preview_logoImg" style="float:right;" width="79" height="43" src="logo.png" alt="Logo">
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Ok</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="position-fixed bottom-0 end-0 p-3 text-white" style="z-index: 8000">
+    <div id="notification" class="toast hide" role="alert" aria-live="assertive" aria-atomic="true">
+        <div id="header_notification" class="toast-header">
+            <strong class="me-auto" id="toast-header">Information</strong>
+            <small>Right now</small>
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+        <div class="toast-body" id="toast-body">
+            Hello, world! This is a toast message.
+        </div>
+    </div>
+</div>
+
+<script src="scripts.js"></script>
+</body>
+</html>
